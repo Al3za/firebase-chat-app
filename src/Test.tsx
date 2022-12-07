@@ -1,6 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import { initializeApp } from 'firebase/app'
- import {config} from './config/config'
+import { config } from './config/config'
+import SignOutButton from './pages/SignOut'
 import {
     addDoc,
     collection,
@@ -75,7 +76,8 @@ import {
         })}
       </div>
       <input type="text" value={todoText} onChange={(e) => setTodoText(e.target.value)} />
-      <button onClick={(e) => addTodo(todoText)}> send </button>
+         <button onClick={(e) => addTodo(todoText)}> send </button>
+         <SignOutButton />
         </div>
     ) 
  }

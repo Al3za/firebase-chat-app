@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom';
 
 
@@ -7,29 +7,37 @@ const LoginPage = () => {
 
     const auth = getAuth()
     const navigate = useNavigate()
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('');
     const [authing, setAuthin] = useState<boolean>(false)
 
-    //console.log(auth)
-    
-    const signInWithGoogle = async () => {
-        setAuthin(true)
 
-        signInWithPopup(auth, new GoogleAuthProvider())
-            .then(res => {
-                console.log(res.user.uid);
-                // remove this log when u deploy this app
-                console.log(res.user.displayName)
+   const SignInWithEmailPassword = () => {
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredentals) => {
+                setAuthin(true)
+                const user = userCredentals.user.displayName
+                console.log(user,'ciao')
                 navigate('/')
-            }).catch((err) => {
-                console.log(err)
+            }).catch((error) => {
+                const errorCode = error.code
+                alert(errorCode)
                 setAuthin(false)
-            })
+       })
     }
 
     return (
         <div>
             <p> Login Page </p>
-            <button onClick={()=> signInWithGoogle()} disabled={authing} > Sign in with google </button>
+            
+            <p><input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />email</p>
+            <p><input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />password</p>
+
+            <p><button onClick={() => SignInWithEmailPassword()} disabled={authing} > Log In with Email </button></p>
+            dont have an account?
+            <button onClick={()=> navigate('/signUp')} > Sign Up </button>
+
+
 
         </div>
     )

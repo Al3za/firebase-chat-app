@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import {getAuth, onAuthStateChanged} from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 
-//export interface IAuthProps { children:any };
 
 const AuthRoute = (props:any) => {
     const { children } = props
@@ -16,6 +15,7 @@ const AuthRoute = (props:any) => {
     
     const AuthCheck = onAuthStateChanged(auth, (user) => {
         if (user) {
+            console.log(user.displayName,'hej')
             setLoading(false)
         } else {
             console.log('Unauthorized')
